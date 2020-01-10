@@ -1,4 +1,3 @@
-class BookSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes 
+class BookSerializer < ActiveModel::Serializer
+  attributes :id, :title
 end
