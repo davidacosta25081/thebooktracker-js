@@ -1,37 +1,8 @@
-
-
+<h1>Books</h1>
+<a href="#" onclick="displayCreateForm(); return false;">Create Book</a>
+<a href="#" onclick="getBooks(); return false;">View Books</a>
+<hr>
+<div id="books-form"></div>
+<div id="main">
   
-  <% if logged_in? %>
-    
-<h1> Hi <%= current_user.name %> ! <h1>
-
-
- <h4>Here are a few things you can do :<h4>
-
-
-
-
-
-
-<%= button_to "  All Books  ", books_path, :method => "get"%><br>
-
-<%= button_to "  Your Books  ", user_books_path(current_user.id), :method => "get"%><br>
-
-
-
-
-<%= button_to "  Create New Book  ", new_user_book_path(current_user.id), :method => "get"%><br>
-
-
-<%= button_to "Create Review", new_user_review_path(current_user.id), :method => "get"%>
-
-
-  <% else %>
-    
-    <h1>Welcome to TheBookTracker</h1>
-    
-      <h4>You must sign in or sign up before you can access the Books !<h4>
-   
-    
-
-  <% end %>
+</div>
