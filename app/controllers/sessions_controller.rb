@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
       
       session[:user_id] = @user.id
       
-      render 'welcome/home'
+      redirect_to '/'
     end
   end 
 

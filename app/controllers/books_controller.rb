@@ -26,7 +26,8 @@ def index
   
 
   def show
-    @book = Book.find(params[:id])
+    book = Book.find(params[:id])
+    render json: book
   end
 
 
