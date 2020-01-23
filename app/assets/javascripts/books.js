@@ -47,6 +47,13 @@ window.addEventListener('load', function(){
 })
 
 
+function clearForm(){
+  let mainForm = document.getElementById('main');
+  mainForm.innerHTML = '';
+  let bookFormDiv = document.getElementById('books-form');
+  bookFormDiv.innerHTML = '';
+}
+
 
 
 function displayBook(e) {
