@@ -12,8 +12,7 @@ function displayCreateForm(){
       <input type="text" id="author_first_name"><br/>
       <label>Author last name: </label><br/>
       <input type="text" id="author_last_name"><br/>
-      <label>Review: </label><br/>
-      <input type="text" id="review"><br/><br/>
+      
       <input type="submit" value="Create Book">
     </form>
   `
@@ -66,9 +65,36 @@ function displayBook(e) {
   fetch(BASE_URL + '/books/' + id + '.json')
     .then(resp => resp.json())
     .then(book => {
+      console.log(book);
       main.innerHTML += `<h3>${book.id}</h3>`;
       main.innerHTML += `<h3>${book.title}</h3>`
+      main.innerHTML += `<h3>${book.author_first_name}</h3>`
+      main.innerHTML += `<h3>${book.author_last_name}</h3>`
+     
     })
+}
+
+
+function createBook() {
+  const book = {
+    title: document.getElementById('title').value,
+    author_first_name: document.getElementById('author_first_name').value,
+    author_last_name: document.getElementById('author_last_name').value
+    
+  }
+  fetch(BASE_URL + '/books', {
+    method: 'POST',
+    body: JSON.stringify({ book }),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }).then(resp => resp.json())
+  .then(book => {
+    document.querySelector("#main ul").innerHTML += `<li>${book.title} - ${book.author_first_name}</li>`
+    let bookFormDiv = document.getElementById('books-form');
+    bookFormDiv.innerHTML = '';
+  })
 }
 
 
