@@ -1,4 +1,11 @@
+<% if logged_in? %>
 <ul class="nav">
   <li><%= link_to 'Home', root_path %></li>
   <%= render 'layouts/navigation_links' %>
 </ul>
+
+<% else %>
+  <ul class="nav">
+  <li><%= link_to 'The Book Tracker', root_path %></li>
+  </ul>
+<% end %>

@@ -21,7 +21,7 @@ function displayCreateForm(){
 
 
 function getBooks() {
-  
+  clearForm();
   let main = document.getElementById('main');
   main.innerHTML = '<ul>';
   fetch(BASE_URL + '/books')
@@ -29,6 +29,7 @@ function getBooks() {
   .then(books => {
     main.innerHTML += books.map(book => `<li><a href="#" data-id="${book.id}">${book.title}</a> </li>`).join('')
     main.innerHTML += '</ul>'
+    
     attachClickToBooksLinks();
     
   })
@@ -90,11 +91,7 @@ function createBook() {
       'Accept': 'application/json'
     }
   }).then(resp => resp.json())
-  .then(book => {
-    document.querySelector("#main ul").innerHTML += `<li>${book.title} - ${book.author_first_name}</li>`
-    let bookFormDiv = document.getElementById('books-form');
-    bookFormDiv.innerHTML = '';
-  })
+  clearForm();
 }
 
 

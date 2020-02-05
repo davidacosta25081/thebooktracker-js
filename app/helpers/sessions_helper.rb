@@ -19,7 +19,7 @@ def valid_reg_user(user)
    if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome Back #{user.name.capitalize}"
-      redirect_to user_path(user)
+      redirect_to '/'
     else
       flash.now[:danger] = "Invalid email/password combination."
       render :new

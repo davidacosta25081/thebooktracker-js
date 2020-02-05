@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       if params[:session]
         @user = User.find_by(email: params[:session][:email])
         valid_reg_user(@user)
+        
       else
 
         @user = User.find_or_create_by!(uid: auth['uid']) do |u|
@@ -23,7 +24,7 @@ class SessionsController < ApplicationController
       
       session[:user_id] = @user.id
       
-      redirect_to '/'
+      render 'welcome#home'
     end
   end 
 

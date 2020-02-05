@@ -1,13 +1,22 @@
+<% if logged_in? %>
+
 <h1>Books</h1>
 <a href="#" onclick="displayCreateForm(); return false;">Create Book</a>
 <a href="#" onclick="getBooks(); return false;">View Books</a>
 <hr>
 <div id="books-form"></div>
 <div id="main">
- <ul>
 
-
-
-</ul>
+	
 </div>
 
+<% else %>
+    
+    <h1>Welcome to TheBookTracker</h1><br>
+    
+      <h4>You must sign in or sign up before you can access the Books !<h4><br>
+    
+    <h4><%= link_to "Sign in", login_path %></h4>
+    <h4><%= link_to "Sign up", new_user_path%></h4>
+
+  <% end %>
