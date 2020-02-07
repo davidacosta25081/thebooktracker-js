@@ -91,8 +91,15 @@ function createBook() {
       'Accept': 'application/json'
     }
   }).then(resp => resp.json())
-  clearForm();
+  
+    
+    let main = document.getElementById('main');
+    main.innerHTML += `<h3>Your Book has been added!</h3>`
+    let bookFormDiv = document.getElementById('books-form');
+  bookFormDiv.innerHTML = '';
+ 
 }
+
 
 
 
