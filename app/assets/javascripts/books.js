@@ -52,6 +52,9 @@ function clearForm(){
   mainForm.innerHTML = '';
   let bookFormDiv = document.getElementById('books-form');
   bookFormDiv.innerHTML = '';
+  let commentsForm = document.getElementById('comments');
+  commentsForm.innerHTML = '';
+
 }
 
 
@@ -67,12 +70,19 @@ function displayBook(e) {
     .then(resp => resp.json())
     .then(book => {
       console.log(book);
-      main.innerHTML += `<h3>${book.id}</h3>`;
-      main.innerHTML += `<h3>${book.title}</h3>`
-      main.innerHTML += `<h3>${book.author_first_name}</h3>`
-      main.innerHTML += `<h3>${book.author_last_name}</h3>`
-     
+      main.innerHTML += `<h3>Book Title: ${book.title}</h3>`
+      main.innerHTML += `<h3>Author: ${book.author_first_name}  ${book.author_last_name}<br><br></h3>`
+      main.innerHTML += `<button onclick="myFunction()">Create Comment</button></h3>`
+      main.innerHTML += `&nbsp;&nbsp;&nbsp;<button onclick="myFunction2()">View Comments</button></h3>`
     })
+}
+
+function myFunction() {
+  document.getElementById("comments").innerHTML = "Please type your comment";
+}
+
+function myFunction2() {
+  document.getElementById("comments").innerHTML = "view comments";
 }
 
 
