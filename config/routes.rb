@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root  'welcome#home'
   
+  
   get '/auth/facebook/callback' => 'sessions#create'
   get     'login',            to: 'sessions#new'
   post    'login',            to: 'sessions#create'
@@ -12,10 +13,11 @@ Rails.application.routes.draw do
   resources :books
 
 
-  resources :users do
-    resources :books 
+  resources :books do 
     resources :reviews
-  end
+  end 
+   
+
 
 
 end

@@ -3,8 +3,7 @@ class BooksController < ApplicationController
 def index
     books = Book.all
     render json: books
-    
-  end
+end
 
 
   def new
@@ -14,10 +13,10 @@ def index
 
   
   def create
-    @book = Book.create(book_params)
-    @book.reviews.last.user = current_user
-    if @book.save
-       render json: @book
+    book = Book.create(book_params)
+    
+    if book.save
+       render json: book
     else
       render :new
     end
@@ -54,7 +53,7 @@ def index
 
 private
   def book_params
-    params.require(:book).permit(:title, :author_first_name, :author_last_name, :genre_name, reviews_attributes: [:content])
+    params.require(:book).permit(:title, :author_first_name, :author_last_name, reviews_attributes: [:content])
   end
 
 

@@ -21,9 +21,8 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.create(review_params)
-    @review.user_id = current_user.id
      if @review.save
-       redirect_to @review
+       render json: @review
      else
        render :new
      end
@@ -49,7 +48,7 @@ class ReviewsController < ApplicationController
   private
     
     def review_params
-      params.require(:review).permit(:content, :book_id)
+      params.require(:review).permit(:content, :book_id, :user_email)
     end
 
     

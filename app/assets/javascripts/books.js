@@ -20,6 +20,32 @@ function displayCreateForm(){
 }
 
 
+function createBook() {
+  const book = {
+    title: document.getElementById('title').value,
+    author_first_name: document.getElementById('author_first_name').value,
+    author_last_name: document.getElementById('author_last_name').value
+    
+  }
+  fetch(BASE_URL + '/books', {
+    method: 'POST',
+    body: JSON.stringify({ book }),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }).then(resp => resp.json())
+  
+    
+    let main = document.getElementById('main');
+    main.innerHTML += `<h3>Your Book has been added!</h3>`
+    let bookFormDiv = document.getElementById('books-form');
+  bookFormDiv.innerHTML = '';
+ 
+}
+
+
+
 function getBooks() {
   clearForm();
   let main = document.getElementById('main');
@@ -66,36 +92,43 @@ function displayBook(e) {
   let main = document.getElementById('main');
   main.innerHTML = '';
 
-  fetch(BASE_URL + '/books/' + id + '.json')
+  fetch(BASE_URL + '/books/' + id)
     .then(resp => resp.json())
     .then(book => {
       console.log(book);
       main.innerHTML += `<h3>Book Title: ${book.title}</h3>`
       main.innerHTML += `<h3>Author: ${book.author_first_name}  ${book.author_last_name}<br><br></h3>`
-      main.innerHTML += `<button onclick="myFunction()">Create Comment</button></h3>`
-      main.innerHTML += `&nbsp;&nbsp;&nbsp;<button onclick="myFunction2()">View Comments</button></h3>`
+      main.innerHTML += `<button onclick="writeReview(${id})">Write Review</button></h3>`
+      main.innerHTML += `&nbsp;&nbsp;&nbsp;<button onclick="showReviews(${id})">View Reviews</button></h3>`
     })
 }
 
-function myFunction() {
-  document.getElementById("comments").innerHTML = "Please type your comment";
+function writeReview(id) {
+  let commentForm = document.getElementById("comments");
+  let html2 =  `<form onsubmit="createReview(${id}); return false;"><br>
+  <label>Your Email: </label><br/>
+  <input type="text" id="email"><br/>
+  Review:<br>
+  <textarea rows="5" cols="30" id="content">
+  </textarea><br><br>
+  <input type="submit" value="Submit">
+</form> `;
+  commentForm.innerHTML = html2;
 }
 
-function myFunction2() {
-  document.getElementById("comments").innerHTML = "view comments";
-}
 
 
-function createBook() {
-  const book = {
-    title: document.getElementById('title').value,
-    author_first_name: document.getElementById('author_first_name').value,
-    author_last_name: document.getElementById('author_last_name').value
+function createReview(id) {
+  
+  const review = {
+    content: document.getElementById('content').value,
+    user_email: document.getElementById('email').value,
+    book_id: `${id}`
     
   }
-  fetch(BASE_URL + '/books', {
+  fetch(BASE_URL + '/reviews', {
     method: 'POST',
-    body: JSON.stringify({ book }),
+    body: JSON.stringify({ review }),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -104,11 +137,32 @@ function createBook() {
   
     
     let main = document.getElementById('main');
-    main.innerHTML += `<h3>Your Book has been added!</h3>`
-    let bookFormDiv = document.getElementById('books-form');
-  bookFormDiv.innerHTML = '';
+    main.innerHTML += `<h3>Your Review has been added!</h3>`
+    let reviewFormDiv = document.getElementById('comments');
+  reviewFormDiv.innerHTML = '';
  
 }
+
+
+function showReviews(id) {
+  clearForm();
+  let main = document.getElementById('comments');
+  main.innerHTML = '<ul>';
+  fetch(BASE_URL + '/reviews')
+  .then(resp => resp.json())
+  .then(reviews => {
+    let reviewsBag = reviews.filter(review => review.book.id === id);
+    main.innerHTML += reviewsBag.map(review => `<li>${review.content}</li>`).join('')
+    main.innerHTML += '</ul>'
+})
+
+
+}
+
+
+
+
+
 
 
 
