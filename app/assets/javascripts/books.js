@@ -100,6 +100,7 @@ function displayBook(e) {
       main.innerHTML += `<h3>Author: ${book.author_first_name}  ${book.author_last_name}<br><br></h3>`
       main.innerHTML += `<button onclick="writeReview(${id})">Write Review</button></h3>`
       main.innerHTML += `&nbsp;&nbsp;&nbsp;<button onclick="showReviews(${id})">View Reviews</button></h3>`
+      
     })
 }
 
@@ -145,21 +146,33 @@ function createReview(id) {
 
 
 function showReviews(id) {
-  clearForm();
+  
   let main = document.getElementById('comments');
   main.innerHTML = '<ul>';
   fetch(BASE_URL + '/reviews')
   .then(resp => resp.json())
   .then(reviews => {
-    let reviewsBag = reviews.filter(review => review.book.id === id);
-    main.innerHTML += reviewsBag.map(review => `<li>${review.content}</li>`).join('')
+    let reviewsBag = reviews.filter(review => review.book.id === id) 
+    main.innerHTML += reviewsBag.map(review => `<li> ${review.content}&nbsp;
+      <button onclick="deleteReview(${id})">Delete</button>&nbsp;
+      <button onclick="editReview(${id})">Edit</button> </li>`).join('')
     main.innerHTML += '</ul>'
-})
-
+   }) 
 
 }
 
 
+
+function deleteReview(id) {
+
+}
+
+
+
+function editReview(id) {
+
+
+}
 
 
 
