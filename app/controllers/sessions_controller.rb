@@ -21,9 +21,10 @@ class SessionsController < ApplicationController
       end
  
       
+     
       
       session[:user_id] = @user.id
-      
+       set_user 
       render 'welcome#home'
     end
   end 

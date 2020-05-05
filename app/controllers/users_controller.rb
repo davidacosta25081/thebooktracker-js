@@ -21,7 +21,8 @@ class UsersController < ApplicationController
 	if @user.save 
 	   log_in @user 
 	   flash[:success] = "Welcome to TheBookTracker!"
-	   redirect_to '/'
+	   set_user 
+     redirect_to '/'
 	else
 	   render :new 
 	end       

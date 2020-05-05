@@ -10,8 +10,9 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  
   def current_user
-      @current_user ||= User.find_by(id: session[:user_id])
+      current_user ||= User.find_by(id: session[:user_id])
   end
   
 
@@ -19,6 +20,7 @@ def valid_reg_user(user)
    if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome Back #{user.name.capitalize}"
+      set_user 
       redirect_to '/'
     else
       flash.now[:danger] = "Invalid email/password combination."
@@ -27,8 +29,15 @@ def valid_reg_user(user)
   end
 
   def log_out
+    cookies.delete :username
     session.delete(:user_id)
     @current_user = nil
+    
+  end
+
+
+ def set_user
+    cookies[:username] = current_user.id
   end
 
 

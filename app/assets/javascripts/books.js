@@ -47,6 +47,7 @@ function createBook() {
 
 
 function getBooks() {
+  
   clearForm();
   let main = document.getElementById('main');
   main.innerHTML = '<ul>';
@@ -120,12 +121,12 @@ function writeReview(id) {
 
 
 function createReview(id) {
-  
+  let userId = document.cookie.toString().slice(9,1000);
   const review = {
     content: document.getElementById('content').value,
     user_email: document.getElementById('email').value,
-    book_id: `${id}`
-    
+    book_id: `${id}`,
+    user_id: `${userId}`
   }
   fetch(BASE_URL + '/reviews', {
     method: 'POST',
