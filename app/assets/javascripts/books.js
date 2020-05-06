@@ -148,17 +148,30 @@ function createReview(id) {
 
 function showReviews(id) {
   
+  let userId = parseInt(document.cookie.slice(9,1000),10)
   let main = document.getElementById('comments');
   main.innerHTML = '<ul>';
   fetch(BASE_URL + '/reviews')
   .then(resp => resp.json())
   .then(reviews => {
-    let reviewsBag = reviews.filter(review => review.book.id === id) 
-    main.innerHTML += reviewsBag.map(review => `<li> ${review.content}&nbsp;
+    let myReviewsBag = reviews.filter(review => review.book.id === id && review.user.id === userId) 
+    let reviewsBag = reviews.filter(review => review.book.id === id && review.user.id != userId)
+    
+    main.innerHTML += myReviewsBag.map(review =>  
+      `<li> ${review.content}&nbsp;
       <button onclick="deleteReview(${id})">Delete</button>&nbsp;
-      <button onclick="editReview(${id})">Edit</button> </li>`).join('')
-    main.innerHTML += '</ul>'
-   }) 
+      <button onclick="editReview(${id})">Edit</button> </li>`).join('') 
+    
+    main.innerHTML += reviewsBag.map(review =>  
+      `<li> ${review.content} 'by :' ${review.user.email}  </li>`).join('')
+    main.innerHTML += '<ul>';
+  
+
+
+     })
+    
+    
+
 
 }
 
