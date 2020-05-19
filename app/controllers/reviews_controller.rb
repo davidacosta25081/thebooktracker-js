@@ -8,7 +8,8 @@ class ReviewsController < ApplicationController
   end
 
   def show
-    @review = Review.find(params[:id])
+    review = Review.find(params[:id])
+    render json: review
   end
 
   def new
@@ -41,7 +42,7 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
     @review.destroy
     flash[:danger] = "Review Deleted"
-    redirect_to user_path(current_user.id)
+    
   end
 
   

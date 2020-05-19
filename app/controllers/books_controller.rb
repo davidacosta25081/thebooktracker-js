@@ -8,7 +8,7 @@ end
 
   def new
     @book = Book.new
-    @book.reviews.build
+    
   end
 
   
@@ -37,7 +37,7 @@ end
   def update 
   	@book = Book.find(params[:id])
   	@book.update(book_params)
-  	redirect_to book_path(@book)
+  	
   end 	
 
 
@@ -45,7 +45,7 @@ end
     @book = Book.find(params[:id])
     @book.destroy
     flash[:danger] = "book Deleted"
-    redirect_to user_path(current_user.id)
+    
   end
 
 

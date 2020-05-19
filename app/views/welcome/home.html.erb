@@ -1,21 +1,51 @@
-<% if logged_in? %>
+<!doctype html>
 
-<h1>Books</h1>
-<a href="#" onclick="displayCreateForm(); return false;">Create Book</a>
-<a href="#" onclick="getBooks(); return false;">View Books</a>
-<hr>
-<div id="books-form"></div>
-<div id="main">
-	
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Book Tracker</title>
+  <meta name="description" content="The Book Tracker">
+  <meta name="author" content="David">
+
+  
+
+</head>
+
+<body>
+  
+<div id="welcome"> 
+<h1>  Welcome to TheBookTracker!  </h1>
+</div>  
+
+
+
+
+<div id="buttons" class="buttons"> 
+    <button id="button1"> Create Book  </button>
+    <button id="button2"> Load Books </button>
 </div>
-<div id="comments"></div>
-<% else %>
+  
     
-    <h1>Welcome to TheBookTracker</h1><br>
-    
-      <h4>You must sign in or sign up before you can access the Books !<h4><br>
-    
-    <h4><%= link_to "Sign in", login_path %></h4>
-    <h4><%= link_to "Sign up", new_user_path%></h4>
 
-  <% end %>
+<div id="book form"></div>
+
+
+<div id="main"></div>
+
+
+<div id="reviews"></div>
+  
+
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
