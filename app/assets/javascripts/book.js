@@ -2,10 +2,11 @@ class Book {
   
   constructor(title, firstname, lastname) {
     this.title = title;
-    this.author_first_name = firstname;
-    this.author_lastname = lastname;
+    this.authorName = firstname;
+    this.authorLast = lastname;
     this.bookId;
-    this.reviewsAdapter = new Review();
+    this.content;
+    
     
   } 
 
@@ -13,11 +14,13 @@ class Book {
   displayCreateForm(){
     
     let bookFormDiv = document.getElementById('book form');
-    bookFormDiv.innerHTML = '';
-    let miniBookFormDiv = document.createElement('div');
-    miniBookFormDiv.classList.add('bookForm');
+    bookFormDiv.innerHTML = "";
+    let successMessage = document.getElementById('review form');
+      successMessage.innerHTML = '';
+    let buttonDiv = document.getElementById('main');
+    buttonDiv = "";
     
-    let html =  `
+    let bookHtml =  `
     <br/><form id="book form">
           <input type="text" required name="title" placeholder="Book's title"/>
           <br/>
@@ -25,33 +28,34 @@ class Book {
           <br/>
           <input type="text" required name="lastName" placeholder="Author's Last Name"/>
           <br/>
-          <input type="text" name="content" placeholder="Review Content"/>
+          <input type="text" required name="content" placeholder="Review Content"/>
           <br/>
           <input type="hidden" id="bookId" value=" "/>
-          
-          <br/><br/>
-          <input type="submit" class='btn-work' value="Submit"/>
+          <input type="submit" class='book-btn' value="Submit Book"/>
         </form>`
-    miniBookFormDiv.innerHTML = html;
-    miniBookFormDiv.addEventListener('submit' , this.createBook);
-    miniBookFormDiv.addEventListener('submit' , e => { this.reviewsAdapter.createReview(e)});
+    bookFormDiv.innerHTML = bookHtml;
     
+    document.getElementById('bookId').value = this.bookId 
     
+    bookFormDiv.addEventListener('submit' , this.createBook);
+    //bookFormDiv.addEventListener('submit' , e => Book.createReview(e));
+
+
+
+
+}
+
+  createBook(e) {
     
-    bookFormDiv.appendChild(miniBookFormDiv);
-    document.getElementById('bookId').value = this.bookId;
-
-  }
-
-
-
-createBook(e) {
     
     e.preventDefault();
+    
+    
+
     const book = {
       'title': e.target.title.value,
-      'author_first_name': e.target.firstName.value,
-      'author_last_name': e.target.lastName.value,
+      'authorName': e.target.firstName.value,
+      'authorLast': e.target.lastName.value,
     }
     
     fetch('http://localhost:3000/books/' , {
@@ -63,12 +67,35 @@ createBook(e) {
       }
     }).then(resp => resp.json())
     .then(book =>  {
+      
       let successMessage = document.getElementById('book form');
-      successMessage.innerHTML = '<h3>Your Book has been added!</h3>'
-      successMessage.innerHTML += `${book.title}  <br/> ${book.author_first_name} <br/> ${book.author_last_name}` 
-    })
+      successMessage.innerHTML = '';
+      successMessage.innerHTML = '<h3>Your Book has been added!</h3>';
+      successMessage.innerHTML += `${book.title}  <br/> ${book.authorName} <br/> ${book.authorLast}` 
+      
+      let content = e.target.content.value;
+      let bookId = book.id;
+      
+      //let content = this.content
+      //let bookId = this.bookId
+      new Review(content,bookId);
+      
+      })//.then(()=> { 
+        //debugger 
+
+
+        //  new Review().createReview();
+
+        
+//})    
+
+
+
   }
  
+  
+  
+
   
   getBooks() {
     let bookFormDiv1 = document.getElementById('book form');
@@ -80,46 +107,98 @@ createBook(e) {
     .then(resp => resp.json())
     .then(books => {
       main.innerHTML += books.reverse().map(book => `<ul><a href="#" data-id="${book.id}">${book.title}</a> </ul>`).join('')
-      
-      this.attachClickToBooksLinks();
-    })
+    })  
+    .then(() => this.attachClickToBooksLinks());
+    
   }
 
 
+  
   attachClickToBooksLinks() {
     
     let books = document.querySelectorAll('ul a');
     for (let i = 0; i < books.length; i++) {
       books[i].addEventListener('click', this.displayBook)
+    
     }
   }
 
  
-  displayBook(e) {
+  
+
+    displayBook(e) {
     e.preventDefault();
     let id = this.dataset.id;
-    let main = document.getElementById('book form');
-    let bookCard = document.getElementById('main');
-    main.innerHTML = '';
-    bookCard.innerHTML = '';
-    let button = document.createElement("button");
-    button.setAttribute('data-id' , id)
-    button.innerHTML = "See Reviews";
-    bookCard.appendChild(button);  
-     
+    let bookCard = document.getElementById('book form');
+    
+    
+    bookCard.innerHTML = ' ';
     fetch('http://localhost:3000/books/' + id)
     .then(resp => resp.json())
-    .then(book =>   {
-      main.innerHTML = `<br> ${book.author_first_name} <br> ${book.author_last_name} <br> ${book.reviews[book.reviews.length - 1].content}`
-      button.addEventListener('click' , () => { new Review().showReviews() } )
-    })
+    .then(book =>   { 
+    
+
+      bookCard.innerHTML = `${book.title} <br> ${book.authorName} <br> ${book.authorLast}`
+    return book.id
+    
+    }).then((id)=> {new Book().reviewForm(id) } )  
   
+  
+      }
+
+      reviewForm(id) {
+      
+      let reviewCard = document.getElementById('review form');
+    reviewCard.innerHTML = '';
+
+      let reviewHtml =  `
+         <br/><form id="review form2">
+          <input type="text" required id="content" placeholder="Review Content"/>
+          <br/>
+          <input type="hidden" id="bookId" value=" "/>
+          <button class="reviewBtn" type="submit">
+        </form>`
+     
+    reviewCard.innerHTML = reviewHtml;
+    document.getElementById('bookId').value = id
+    
+    let botonsito = document.querySelector('.reviewBtn')
+    botonsito.innerHTML = 'Add Review'
+    botonsito.addEventListener('click' , e => { Book.reviewAdapter(e) })
+    
+    
+
+    /*let showReviews = document.getElementById('main');
+    showReviews.innerHTML = '';
+    
+    let button = document.createElement("button");
+    button.setAttribute('data-id' , id)
+    button.innerHTML = "Mostra Reviews nea";
+    button.addEventListener('click', e => Review.showReviews(e));
+    showReviews.appendChild(button);
+   */
    
+ 
 
-  } 
+} 
 
 
   
+  
+ static reviewAdapter(e) {
+
+  e.preventDefault();
+  let content = document.getElementById('content').value;
+  let bookId = document.getElementById('bookId').value;
+  
+  new Review(content, bookId);
+
+
+ }
+
+
+
+
   
 
 
@@ -141,9 +220,18 @@ createBook(e) {
   getLastBookId(){
     fetch('http://localhost:3000/books')
     .then(resp => resp.json())
-    .then (books =>   books[books.length - 1].id) 
+    .then (books =>  {
+       
+      if (books.length !== 0) {
+         return books[books.length - 1].id 
+      } else {
+           return books.length
+      }
+    })
     .then (bookId => { this.bookId = bookId + 1
-      console.log(this.bookId); 
+      
+      console.log(this.bookId);
+      
       this.displayCreateForm(); 
     });
   } 

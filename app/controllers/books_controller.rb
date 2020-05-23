@@ -15,11 +15,10 @@ end
   def create
     book = Book.create(book_params)
     
-    if book.save
+   
        render json: book
-    else
-      render :new
-    end
+   
+     
   end
 
   
@@ -53,7 +52,7 @@ end
 
 private
   def book_params
-    params.require(:book).permit(:title, :author_first_name, :author_last_name, reviews_attributes: [:content])
+    params.require(:book).permit(:title, :authorName, :authorLast)
   end
 
 

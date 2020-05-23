@@ -28,7 +28,7 @@ gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'pry', '~> 0.10.3'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-gem 'active_model_serializers', '~> 0.10.2'
+gem 'active_model_serializers', '~> 0.10.10'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 

@@ -10,21 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_19_155142) do
+ActiveRecord::Schema.define(version: 2020_05_22_135606) do
 
   create_table "books", force: :cascade do |t|
     t.string "title"
-    t.string "author_first_name"
-    t.string "author_last_name"
+    t.string "authorName"
+    t.string "authorLast"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "reviews", force: :cascade do |t|
     t.string "content"
-    t.string "user_email"
-    t.integer "user_id", null: false
     t.integer "book_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["book_id"], name: "index_reviews_on_book_id"

@@ -2,10 +2,8 @@
 
 one:
   content: MyString
-  user: one
-  book: one
+  Book: one
 
 two:
   content: MyString
-  user: two
-  book: two
+  Book: two
