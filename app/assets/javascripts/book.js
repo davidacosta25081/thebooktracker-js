@@ -1,27 +1,28 @@
 class Book {
   
-  constructor(title, firstname, lastname) {
+  constructor(bookId, title, firstname, lastname) {
     this.title = title;
     this.authorName = firstname;
     this.authorLast = lastname;
     this.bookId;
-    this.content;
-    
-    
   } 
 
 
+  
+  clearDivs () {
+    this.bookForm = document.getElementById('book form');
+    this.bookForm.innerHTML = "";
+    this.reviewForm = document.getElementById('review form');
+    this.reviewForm.innerHTML = "";
+    this.reviews = document.getElementById('reviews');
+    this.reviews.innerHTML = "";
+  }
+
+
   displayCreateForm(){
-    
-    let bookFormDiv = document.getElementById('book form');
-    bookFormDiv.innerHTML = "";
-    let successMessage = document.getElementById('review form');
-      successMessage.innerHTML = '';
-    let buttonDiv = document.getElementById('main');
-    buttonDiv = "";
-    
+    this.clearDivs();
     let bookHtml =  `
-    <br/><form id="book form">
+      <br/><form id="book form">
           <input type="text" required name="title" placeholder="Book's title"/>
           <br/>
           <input type="text" required name="firstName" placeholder="Author's First Name"/>
@@ -31,33 +32,20 @@ class Book {
           <input type="text" required name="content" placeholder="Review Content"/>
           <br/>
           <input type="hidden" id="bookId" value=" "/>
-          <input type="submit" class='book-btn' value="Submit Book"/>
+          <input type="submit" class='book-btn' value="Submit"/>
         </form>`
-    bookFormDiv.innerHTML = bookHtml;
-    
+    this.bookForm.innerHTML = bookHtml;
     document.getElementById('bookId').value = this.bookId 
-    
-    bookFormDiv.addEventListener('submit' , this.createBook);
-    //bookFormDiv.addEventListener('submit' , e => Book.createReview(e));
-
-
-
-
-}
+    this.bookForm.addEventListener('submit' , this.createBook);
+  }
 
   createBook(e) {
-    
-    
     e.preventDefault();
-    
-    
-
     const book = {
       'title': e.target.title.value,
       'authorName': e.target.firstName.value,
       'authorLast': e.target.lastName.value,
     }
-    
     fetch('http://localhost:3000/books/' , {
       method: 'POST',
       body: JSON.stringify({ book }),
@@ -72,178 +60,59 @@ class Book {
       successMessage.innerHTML = '';
       successMessage.innerHTML = '<h3>Your Book has been added!</h3>';
       successMessage.innerHTML += `${book.title}  <br/> ${book.authorName} <br/> ${book.authorLast}` 
-      
       let content = e.target.content.value;
       let bookId = book.id;
-      
-      //let content = this.content
-      //let bookId = this.bookId
       new Review(content,bookId);
-      
-      })//.then(()=> { 
-        //debugger 
-
-
-        //  new Review().createReview();
-
-        
-//})    
-
-
-
+    })
   }
  
-  
-  
-
-  
   getBooks() {
-    let bookFormDiv1 = document.getElementById('book form');
-    bookFormDiv1.innerHTML = '';
-    let main = document.getElementById('book form');
-    main.classList.add('book')
-  
+    this.clearDivs();
     fetch('http://localhost:3000/books')
     .then(resp => resp.json())
     .then(books => {
-      main.innerHTML += books.reverse().map(book => `<ul><a href="#" data-id="${book.id}">${book.title}</a> </ul>`).join('')
+     this.bookForm.innerHTML += books.reverse().map(book => `<ul><a href="#" data-id="${book.id}">${book.title}</a> </ul>`).join('')
     })  
     .then(() => this.attachClickToBooksLinks());
-    
   }
 
-
-  
   attachClickToBooksLinks() {
-    
     let books = document.querySelectorAll('ul a');
     for (let i = 0; i < books.length; i++) {
-      books[i].addEventListener('click', this.displayBook)
-    
+    books[i].addEventListener('click', this.displayBook);
     }
   }
 
- 
-  
-
-    displayBook(e) {
-    e.preventDefault();
-    let id = this.dataset.id;
-    let bookCard = document.getElementById('book form');
-    
-    
-    bookCard.innerHTML = ' ';
-    fetch('http://localhost:3000/books/' + id)
-    .then(resp => resp.json())
-    .then(book =>   { 
-    
-
-      bookCard.innerHTML = `${book.title} <br> ${book.authorName} <br> ${book.authorLast}`
-    return book.id
-    
-    }).then((id)=> {new Book().reviewForm(id) } )  
-  
-  
-      }
-
-      reviewForm(id) {
-      
-      let reviewCard = document.getElementById('review form');
-    reviewCard.innerHTML = '';
-
-      let reviewHtml =  `
-         <br/><form id="review form2">
-          <input type="text" required id="content" placeholder="Review Content"/>
-          <br/>
-          <input type="hidden" id="bookId" value=" "/>
-          <button class="reviewBtn" type="submit">
-        </form>`
-     
-    reviewCard.innerHTML = reviewHtml;
-    document.getElementById('bookId').value = id
-    
-    let botonsito = document.querySelector('.reviewBtn')
-    botonsito.innerHTML = 'Add Review'
-    botonsito.addEventListener('click' , e => { Book.reviewAdapter(e) })
-    
-    
-
-    /*let showReviews = document.getElementById('main');
-    showReviews.innerHTML = '';
-    
-    let button = document.createElement("button");
-    button.setAttribute('data-id' , id)
-    button.innerHTML = "Mostra Reviews nea";
-    button.addEventListener('click', e => Review.showReviews(e));
-    showReviews.appendChild(button);
-   */
-   
- 
-
-} 
-
-
-  
-  
- static reviewAdapter(e) {
-
-  e.preventDefault();
-  let content = document.getElementById('content').value;
-  let bookId = document.getElementById('bookId').value;
-  
-  new Review(content, bookId);
-
-
- }
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   displayBook(e) {
+     e.preventDefault();
+     let id = this.dataset.id;
+     let bookCard = document.getElementById('book form');
+     bookCard.innerHTML = ' ';
+     fetch('http://localhost:3000/books/' + id)
+     .then(resp => resp.json())
+     .then(book =>   { 
+       const {id, title, authorName, authorLast} = book; 
+       bookCard.innerHTML = `<br> ${title} <br> ${authorName} <br> ${authorLast}`
+       return id;
+      }).then((id)=> {Review.reviewForm(id) } )  
+    }
 
   getLastBookId(){
     fetch('http://localhost:3000/books')
     .then(resp => resp.json())
     .then (books =>  {
-       
       if (books.length !== 0) {
-         return books[books.length - 1].id 
-      } else {
-           return books.length
+        return books[books.length - 1].id 
+      }else {
+        return books.length
       }
     })
-    .then (bookId => { this.bookId = bookId + 1
-      
-      console.log(this.bookId);
-      
+    .then (bookId => { 
+      this.bookId = bookId + 1
       this.displayCreateForm(); 
     });
   } 
  
-
- 
-
-
-
-
-
-
 
 }
 
