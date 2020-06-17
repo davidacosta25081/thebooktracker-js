@@ -2,39 +2,51 @@
 
 <html lang="en">
 <head>
+ 
+
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
-
-  <title>The Book Tracker</title>
-  <meta name="description" content="The Book Tracker">
-  <meta name="author" content="David">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
 
 </head>
 
 <body>
   
-<div id="welcome"> 
-<h1>  BookTracker LoGo  </h1>
+<div class="logo"> 
+
+<img src="<%= asset_path 'Book.png' %>" alt="">
+
 </div>  
 
 
 
-
-<div id="buttons" class="buttons"> 
+<div id="buttons" class="buttons form-group col-xs-6 col-xs-offset-3"> 
     <button id="button1" class="btn"> Create Book  </button>
     <button id="button2" class="btn"> Load Books </button>
 </div>
   
-    
+  
 
-<div id="book form"></div>
-<div id="review form"></div>
+<div id="book-form" class="form-group col-xs-4 col-xs-offset-4"></div>
 
-<div id="main"></div>
+<div id="review form" class="form-group col-xs-6 col-xs-offset-3" ></div>
 
 
-<div id="reviews"></div>
+
+
+<div id="newreviews" class="form-group col-xs-6 col-xs-offset-3">
+
+<div id="reviews" class="reviews"> </div>
+
+
+</div>
+
+
   
 
 

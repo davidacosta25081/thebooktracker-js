@@ -12,7 +12,8 @@ class Review {
     let userId = document.cookie.toString().slice(9,1000);
     let reviewsShow = document.getElementById('reviews');
     reviewsShow.innerHTML = '';
-  
+  let successMessage = document.getElementById('review form');
+    successMessage.innerHTML = '';
     const review = {
       'content': this.content,
       'book_id': this.bookId,
@@ -29,19 +30,22 @@ class Review {
     .then(resp => resp.json())
     .then(review => { console.log("Creating Review") })
     .then(() => {
-      let successMessage = document.getElementById('review form');
-      successMessage.innerHTML = '';
-      successMessage.innerHTML = '<h4> Submission successful !</h4>';
+      let success = document.createElement('div');
+      success.classList.add('alert');
+      success.classList.add('alert-success');
+      success.innerHTML = `<strong> Submission Succesful !</strong>`;
+      reviewsShow.appendChild(success);
       let buttonShowReviews = document.createElement('Button');
       buttonShowReviews.innerHTML = 'Show Reviews';
       buttonShowReviews.classList.add("reviewBtn");
       buttonShowReviews.setAttribute('data-id' , this.bookId)
       buttonShowReviews.addEventListener('click' , Review.showReviews);
+      
       successMessage.appendChild(buttonShowReviews);
     
     })
     
-    // Add button to show reviews !!! Review.showReviews();
+    
   }
 
   static reviewForm(id) {
@@ -50,7 +54,7 @@ class Review {
     reviewCard.innerHTML = '';
     let reviewHtml =  `
       <br/><form id="review form2">
-      <textarea id="styled"  name="content" placeholder="Review Content"/></textarea>
+      <textarea id="styled" class="form-control"  name="content" placeholder="Review Content"/></textarea>
       <br/>
       <input type="hidden" id="bookId" value=" "/>
       <button class="reviewBtn" type="submit">
@@ -82,6 +86,7 @@ class Review {
 
   static showReviews() {
     let id = this.dataset.id
+    
     let userId = document.cookie.toString().slice(9,1000);
     let reviewsShow = document.getElementById('reviews');
     reviewsShow.innerHTML = '';
@@ -89,17 +94,45 @@ class Review {
     .then(resp => resp.json())
     .then(book => {
       for (let i = 0; i < book.reviews.length; i++) {
-        reviewsShow.innerHTML += `<h3>${book.reviews[i].content}  <br> by ${book.users[i].email}</h3>`
+        reviewsShow.innerHTML +=  `<ul><b>Review :</b></br></br>${book.reviews[i].content}<br/><br/><b> by : ${book.users[i].email}</b><br/></ul>`
         if (book.users[i].id == userId) {
           let buttonDelete = document.createElement('Button');
-          buttonDelete.classList.add('btn')
+          buttonDelete.classList.add('delete-btn');
+          let reviewId = book.reviews[i].id;
+          buttonDelete.setAttribute('data-id',reviewId);
           buttonDelete.innerHTML = 'Delete';
-          reviewsShow.appendChild(buttonDelete); 
+          reviewsShow.appendChild(buttonDelete);
         }
-      }
+      }     
+       let buttons = document.querySelectorAll('.delete-btn');
+       for ( let i = 0; i < buttons.length; i++){
+         buttons[i].addEventListener('click', Review.delete);
+        }   
+        
+      
+      
     })
+  
   }
     
+
+
+
+  static delete() {
+
+    let id = this.dataset.id;
+    fetch('http://localhost:3000/reviews/' + id, {
+      method: 'delete'
+    })
+    let reviewDeleted = document.getElementById('reviews');
+    reviewDeleted.innerHTML = " ";
+    let success = document.createElement('div');
+    success.classList.add('alert');
+    success.classList.add('alert-success');
+    success.innerHTML = `<strong> Your Review has been deleted.</strong>`;
+    reviewDeleted.appendChild(success);
+  }
+
 }
 
 

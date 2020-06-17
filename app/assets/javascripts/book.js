@@ -11,7 +11,7 @@ class Book {
 
   
   clearDivs () {
-    this.bookForm = document.getElementById('book form');
+    this.bookForm = document.getElementById('book-form');
     this.bookForm.innerHTML = "";
     this.reviewForm = document.getElementById('review form');
     this.reviewForm.innerHTML = "";
@@ -22,17 +22,18 @@ class Book {
 
   displayCreateForm(){
     let bookHtml =  `
-      <br/><form id="book form">
-          <input type="text" required name="title" placeholder="Book's title"/>
+      <br/><br/><form id="book-form">
+          <input type="text" class="form-control" required name="title" placeholder="Book's title"/>
           <br/>
-          <input type="text" required name="firstName" placeholder="Author's First Name"/>
+          <input type="text" class="form-control" required name="firstName" placeholder="Author's First Name"/>
           <br/>
-          <input type="text" required name="lastName" placeholder="Author's Last Name"/>
+          <input type="text" class="form-control" required name="lastName" placeholder="Author's Last Name"/>
           <br/>
-          <textarea id="styled" required name="content" placeholder="  Review Content"/></textarea>
+          <textarea id="styled" class="form-control"  required name="content" placeholder="  Review Content"/></textarea>
           <br/>
           <input type="hidden" id="bookId" value=" "/>
-          <input type="submit" class='btn' value="Submit"/>
+          <br/>
+          <input type="submit" class="btn" value="Submit"/>
         </form>`
     this.bookForm.innerHTML = bookHtml;
     document.getElementById('bookId').value = this.bookId 
@@ -56,9 +57,9 @@ class Book {
     }).then(resp => resp.json())
     .then(book =>  {
       
-      let bookCard = document.getElementById('book form');
+      let bookCard = document.getElementById('book-form');
       bookCard.innerHTML = '';
-      bookCard.innerHTML += `</br></br>${book.title} </br> ${book.authorName} </br> ${book.authorLast}` 
+      bookCard.innerHTML += `</br></br><h4><b>The Book Title :</b>${book.title} </br><b>Author's First Name :</b> ${book.authorName} </br><b>Author's Last Name :</b> ${book.authorLast}</h4>` 
       let content = e.target.content.value;
       let bookId = book.id;
       new Review(content,bookId);
@@ -84,13 +85,13 @@ class Book {
    displayBook(e) {
      e.preventDefault();
      let id = this.dataset.id;
-     let bookCard = document.getElementById('book form');
+     let bookCard = document.getElementById('book-form');
      bookCard.innerHTML = ' ';
      fetch('http://localhost:3000/books/' + id)
      .then(resp => resp.json())
      .then(book =>   { 
        const {id, title, authorName, authorLast} = book; 
-       bookCard.innerHTML = `<br> ${title} <br> ${authorName} <br> ${authorLast}`
+       bookCard.innerHTML = `<ul></br><h4><b>The Book Title : </b> ${book.title} </br><b>Author's First Name :</b> ${book.authorName} </br><b>Author's Last Name :</b> ${book.authorLast}</h4></ul>`
        return id;
       }).then((id)=> {Review.reviewForm(id) } )  
     }

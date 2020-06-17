@@ -1,11 +1,9 @@
-/*
- * Simple CSS stylesheet for a navigation bar and flash messages.
- */
+* { margin:0; padding:0; }
 main {
   text-align: center;
-  font-family: "Times New Roman", Times, serif;
-  background-color: #eee;
-  padding-bottom: 80px;
+  font-family: "Optima", sans-serif;
+  
+  padding-bottom: 50px;
   width: 100%;
   }
 header {
@@ -42,27 +40,40 @@ ul.nav li a {
     background: #F3F3F3;
     border: 1px #DADADA solid;
     padding: 5px 10px;
-    border-radius: 2px;
+    border-radius: 4px;
     font-weight: bold;
     font-size: 9pt;
     text-align: center;
     outline: none;
-    
+  }
+
+.delete-btn {
+
+
+    color: #444444;
+    background: #F3F3F3;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 9pt;
+    text-align: center;
+    outline: none;
+     margin: 0px 0px 15px;
 
 }
 
 
-.bookForm {
 
 
+.book-form {
+  display: inline-block;
 
-  padding: 50px 0;
-  
-  background-color: lightblue;
-  border: 5px solid black;
-  margin: 10px 300px 10px 300px;
 
 }
+
+
+
 
 form input {
   
@@ -74,37 +85,79 @@ form input {
 
 
 textarea#styled {
-
-  width: 215px;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+  width: 400px;
   height: 100px;
   padding: 5px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  
 }
-
-
-
-
-
-}
-
-.input { 
-
-
- }
 
 
 .reviewBtn {
   color: #444444;
     background: #F3F3F3;
-    border: 1px #DADADA solid;
-    padding: 5px 10px;
-    border-radius: 2px;
-    font-weight: bold;
-    font-size: 9pt;
+    border: 1px #DADADA ;
+    padding: 5px 22px;
+    border-radius: 4px;
+   
+    font-size: 10pt;
     text-align: center;
     outline: none;
-    margin: 5px 100px 20px;
+    margin: 0px 100px 40px;
 }
+
+.logo img {
+  width: 80%;
+  height: 250px;
+margin: 5px 0px 40px;
+}
+
+
+
+.reviews ul {
+
+
+box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+font-size: 10pt;
+text-shadow: 0 1px 0 white;
+ word-wrap: break-word;
+
+}
+
+.reviews  {
+text-align: left;
+
+
+}
+
+
+
+
+
+
+
+.row {
+
+
+text-align: center;
+
+}
+
+
+.insiderow {
+
+display: inline-block;
+
+ right:0.1%; 
+  top: 50%;
+}
+
+
+
+
+
 
 
 

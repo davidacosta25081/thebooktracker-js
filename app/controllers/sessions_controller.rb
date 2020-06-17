@@ -32,7 +32,6 @@ class SessionsController < ApplicationController
 
 def destroy
     log_out
-    flash[:danger] = "Goodbye, thank you for using TheBookTracker!"
     redirect_to login_path
   end
 
