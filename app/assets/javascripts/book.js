@@ -1,6 +1,6 @@
 class Book {
   
-  constructor(bookId, title, firstname, lastname) {
+  constructor(title, firstname, lastname) {
     this.title = title;
     this.authorName = firstname;
     this.authorLast = lastname;
@@ -42,11 +42,11 @@ class Book {
 
   createBook(e) {
     e.preventDefault();
-    const book = {
-      'title': e.target.title.value,
-      'authorName': e.target.firstName.value,
-      'authorLast': e.target.lastName.value,
-    }
+    const book = new Book(
+      e.target.title.value,
+      e.target.firstName.value,
+      e.target.lastName.value,
+    )
     fetch('http://localhost:3000/books/' , {
       method: 'POST',
       body: JSON.stringify({ book }),
