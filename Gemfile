@@ -31,7 +31,7 @@ gem 'pry', '~> 0.10.3'
 gem 'active_model_serializers', '~> 0.10.10'
 
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'json', '~> 1.8', '>= 1.8.3'
+gem 'json', '~> 2.3'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
