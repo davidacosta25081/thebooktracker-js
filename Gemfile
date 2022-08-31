@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem "dynamic_form"
-gem 'omniauth', '~> 1.6', '>= 1.6.1'
+gem 'omniauth', '~> 1.9'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'pry', '~> 0.10.3'
